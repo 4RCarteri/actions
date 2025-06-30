@@ -13,8 +13,8 @@ jobs:
   notify-chat:
     runs-on: ubuntu-latest
     steps:
-      - name: Notify Google Chat
-        uses: your-org/google-chat-notifier-action@v1
+      - name: New Pull Request Notification
+        uses: wexinc/google-chat-notifier/new-pull-request@v1
         with:
           webhook-url: ${{ secrets.GOOGLE_CHAT_WEBHOOK_URL }}
           pr-data: ${{ toJson(github.event.pull_request) }}
