@@ -13,6 +13,3 @@ runs:
   args:
     - ${{ inputs.webhook-url }}
     - ${{ inputs.pr-data }}
-branding:
-  icon: 'message-square'
-  color: 'blue'
