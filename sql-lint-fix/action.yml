@@ -24,5 +24,11 @@ runs:
       with:
         github_token: ${{ inputs.github_token }}
         sqlfluff_version: ${{ inputs.sqlfluff_version }}
-        src: ${{ inputs.src }}
+        paths: ${{ inputs.src }}
         sqlfluff_command: "lint"
+    
+    - name: "Show outputs (Optional)"
+      shell: bash
+      run: |
+        echo '${{ steps.lint-sql.outputs.sqlfluff-results }}' | jq -r '.'
+        echo '${{ steps.lint-sql.outputs.sqlfluff-results-rdjson }}' | jq -r '.'
