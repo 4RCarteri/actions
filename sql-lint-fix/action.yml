@@ -25,3 +25,4 @@ runs:
         github_token: ${{ inputs.github_token }}
         sqlfluff_version: ${{ inputs.sqlfluff_version }}
         src: ${{ inputs.src }}
+        sqlfluff_command: "lint"
