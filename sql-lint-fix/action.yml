@@ -131,7 +131,7 @@ runs:
       with:
         github_token: ${{ inputs.github_token }}
         sqlfluff_version: "3.3.1"
-        paths: ${{ inputs.src }}
+        paths: ${{ inputs.paths }}
         sqlfluff_command: "fix"
         dialect: "ansi"
         level: ${{ inputs.level }}
