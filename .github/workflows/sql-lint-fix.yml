@@ -18,5 +18,4 @@ jobs:
         uses: ./sql-lint-fix
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          sqlfluff_version: "latest"
           src: "Databases"

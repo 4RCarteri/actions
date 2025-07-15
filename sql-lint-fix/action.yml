@@ -5,10 +5,6 @@ inputs:
   github_token:
     description: "GitHub Token for accessing the repository"
     required: true
-  sqlfluff_version:
-    description: "SQLFluff version to use"
-    required: false
-    default: "latest"
   src:
     description: "Directory containing SQL files"
     required: false
@@ -23,7 +19,7 @@ runs:
       uses: yu-iskw/action-sqlfluff@v4
       with:
         github_token: ${{ inputs.github_token }}
-        sqlfluff_version: ${{ inputs.sqlfluff_version }}
+        sqlfluff_version: "3.3.1"
         paths: ${{ inputs.src }}
         sqlfluff_command: "lint"
     
