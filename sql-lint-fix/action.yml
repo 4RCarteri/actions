@@ -19,26 +19,18 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: Lint SQL files
-      uses: yu-iskw/action-sqlfluff@v4
-      id: lint
+    - uses: actions/checkout@v4
+    - uses: yu-iskw/action-sqlfluff@v4
+      id: lint-sql
       with:
-        command: lint
-        paths: ${{ inputs.paths }}
-        dialect: ${{ inputs.dialect }}
-        sqlfluff-version: ${{ inputs.sqlfluff_version }}
-
-    - name: Output lint result
+        github_token: ${{ secrets.github_token }}
+        reporter: github-pr-review
+        sqlfluff_version: "3.3.1"
+        sqlfluff_command: "lint" # Or "lint"
+        config: "${{ github.workspace }}/.sqlfluff"
+        paths: "${{ github.workspace }}/models"
+    - name: "Show outputs (Optional)"
       shell: bash
       run: |
-        echo "${{ steps.lint.outputs.result }}"
-        echo "lint-result=${{ steps.lint.outputs.result }}" >> $GITHUB_OUTPUT
-
-    - name: Fix SQL files
-      uses: yu-iskw/action-sqlfluff@v4
-      with:
-        command: fix
-        paths: ${{ inputs.paths }}
-        dialect: ${{ inputs.dialect }}
-        sqlfluff-version: ${{ inputs.sqlfluff_version }}
-        force: true
+        echo '${{ steps.lint-sql.outputs.sqlfluff-results }}' | jq -r '.'
+        echo '${{ steps.lint-sql.outputs.sqlfluff-results-rdjson }}' | jq -r '.'
