@@ -1,6 +1,9 @@
 name: 'SQLFluff Lint and Fix'
 description: 'Lint and auto-fix SQL files'
 inputs:
+  github_token:
+    description: 'GitHub Token'
+    required: true
   paths:
     description: 'Paths to SQL files (default: **/*.sql)'
     required: false
