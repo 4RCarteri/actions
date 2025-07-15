@@ -3,12 +3,123 @@ description: "Lint all SQL files under the Databases directory using SQLFluff vi
 author: "4RCarteri"
 inputs:
   github_token:
-    description: "GitHub Token for accessing the repository"
+    description: "GITHUB_TOKEN"
     required: true
-  src:
-    description: "Directory containing SQL files"
+    default: "${{ github.token }}"
+  github_base_ref:
+    description: "Pull request target branch name"
     required: false
-    default: "Databases"
+    default: "${{ github.base_ref }}"
+  working-directory:
+    description: "working directory"
+    required: false
+    default: "${{ github.workspace }}"
+  ### Flags for reviewdog ###
+  level:
+    description: "Report level for reviewdog [info,warning,error]"
+    required: false
+    default: "error"
+  reporter:
+    description: "Reporter of reviewdog command [github-check,github-pr-review]."
+    required: false
+    default: "github-check"
+  filter_mode:
+    description: |
+      Filtering mode for the reviewdog command [added,diff_context,file,nofilter].
+      Default is file.
+    required: false
+    default: "file"
+  fail_on_error:
+    description: |
+      Exit code for reviewdog when errors are found [true,false]
+      Default is `false`.
+    required: false
+    default: "false"
+  reviewdog_version:
+    description: "reviewdog version"
+    required: false
+    default: "v0.20.2"
+  ### Flags for sqlfluff ###
+  sqlfluff_version:
+    description: |
+      sqlfluff version. Use the latest version if not set.
+    required: false
+    default: "3.2.5"
+  sqlfluff_command:
+    description: "The sub command of sqlfluff. One of lint and fix"
+    required: false
+    default: "lint"
+  paths:
+    description: |
+      PATH is the path to a sql file or directory to lint.
+      This can be either a file ('path/to/file.sql'), a path ('directory/of/sql/files'), a single ('-') character to indicate reading from *stdin* or a dot/blank ('.'/' ') which will be interpreted like passing the current working directory as a path argument.
+    required: true
+  file_pattern:
+    description: "The regular expression to filter checked files"
+    required: false
+    default: '\.sql$'
+  encoding:
+    description: "Specifiy encoding to use when reading and writing files. Defaults to autodetect."
+    required: false
+    default: ""
+  config:
+    description: |
+      Include additional config file.
+      By default the config is generated from the standard configuration files described in the documentation.
+      This argument allows you to specify an additional configuration file that overrides the standard configuration files.
+      N.B. cfg format is required.
+    required: false
+    default: ""
+  exclude-rules:
+    description: |
+      Exclude specific rules.
+      For example specifying –exclude-rules L001 will remove rule L001 (Unnecessary trailing whitespace) from the set of considered rules.
+      This could either be the allowlist, or the general set if there is no specific allowlist.
+      Multiple rules can be specified with commas e.g. –exclude-rules L001,L002 will exclude violations of rule L001 and rule L002.
+    required: false
+    default: ""
+  rules:
+    description: |
+      Narrow the search to only specific rules.
+      For example specifying –rules L001 will only search for rule L001 (Unnecessary trailing whitespace).
+      Multiple rules can be specified with commas e.g. –rules L001,L002 will specify only looking for violations of rule L001 and rule L002.
+    required: false
+    default: ""
+  templater:
+    description: "The templater to use"
+    required: false
+    default: ""
+  disable-noqa:
+    description: "Set this flag to ignore inline noqa comments."
+    required: false
+    default: ""
+  dialect:
+    description: "The dialect of SQL to lint"
+    required: false
+    default: ""
+  processes:
+    description: "The number of parallel processes to run."
+    required: false
+    default: "2"
+  extra_requirements_txt:
+    description: |
+      A path to your custom `requirements.txt` to install extra modules for your dbt adapters.
+      Please make sure not to contain `sqlfluff` and its dependent packages, because the action can be broken by the conflicts.
+    required: false
+    default: ""
+outputs:
+  sqlfluff-results:
+    description: "The JSON object string of sqlfluff results"
+    value: ${{ steps.sqlfluff-with-reviewdog-in-composite.outputs.sqlfluff-results }}
+  sqlfluff-exit-code:
+    description: "The exit code of sqlfluff"
+    value: ${{ steps.sqlfluff-with-reviewdog-in-composite.outputs.sqlfluff-exit-code }}
+  sqlfluff-results-rdjson:
+    description: "The JSON object string of sqlfluff results"
+    value: ${{ steps.sqlfluff-with-reviewdog-in-composite.outputs.sqlfluff-results-rdjson }}
+  reviewdog-return-code:
+    description: "The exit code of reviewdog"
+    value: ${{ steps.sqlfluff-with-reviewdog-in-composite.outputs.reviewdog-return-code }}
 runs:
   using: "composite"
   steps:
@@ -21,8 +132,11 @@ runs:
         github_token: ${{ inputs.github_token }}
         sqlfluff_version: "3.3.1"
         paths: ${{ inputs.src }}
-        sqlfluff_command: "lint"
+        sqlfluff_command: "fix"
         dialect: "ansi"
+        level: ${{ inputs.level }}
+        filter_mode: ${{ inputs.filter_mode }}
+        reviewdog_version: ${{ inputs.reviewdog_version }}
     
     - name: "Show outputs (Optional)"
       shell: bash
