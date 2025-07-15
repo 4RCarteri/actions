@@ -19,7 +19,6 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v4
     - uses: yu-iskw/action-sqlfluff@v4
       id: lint-sql
       with:

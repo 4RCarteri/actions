@@ -11,6 +11,7 @@ jobs:
   lint_fix_sql:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: ./sql-lint-fix
         with:
           paths: '**/*.sql'
