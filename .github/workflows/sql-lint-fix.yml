@@ -24,7 +24,7 @@ jobs:
           reporter: github-pr-review
           sqlfluff_version: "3.4.2"
           sqlfluff_command: "fix" # Or "lint"
-          paths: "${{ github.workspace }}/Databases"
+          paths: "${{ github.workspace }}/Databases/**"
           level: "info"
           filter_mode: "file"
           reviewdog_version: "v0.20.2"
