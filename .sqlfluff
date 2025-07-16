@@ -12,9 +12,6 @@ exclude_paths = .venv,.git,__pycache__
 # Set the maximum line length
 max_line_length = 80
 
-# Whether to parse templated SQL
-templater = jinja
-
 # Set verbosity: 0 (least) - 3 (most verbose)
 verbosity = 1
 
