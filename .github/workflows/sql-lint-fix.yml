@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'Databases/**/*.sql'
   pull_request:
   workflow_dispatch:
 
@@ -21,7 +19,7 @@ jobs:
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
           sqlfluff_version: "3.4.2"
-          sqlfluff_command: "fix" # Or "lint"
+          sqlfluff_command: "lint" # Or "lint"
           paths: "${{ github.workspace }}/Databases"
           level: "info"
           filter_mode: "file"
@@ -31,5 +29,7 @@ jobs:
       - name: "Show outputs (Optional)"
         shell: bash
         run: |
-          echo '${{ steps.lint-sql.outputs.sqlfluff-results }}' | jq -r '.'
-          echo '${{ steps.lint-sql.outputs.sqlfluff-results-rdjson }}' | jq -r '.'
+          echo '${{ steps.lint-sql.outputs.sqlfluff-results }}'
+          echo '${{ steps.lint-sql.outputs.sqlfluff-results-rdjson }}'
+          echo '${{ steps.lint-sql.outputs.sqlfluff-exit-code }}'
+          echo '${{ steps.lint-sql.outputs.reviewdog-return-code }}'
