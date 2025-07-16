@@ -22,7 +22,6 @@ jobs:
           reporter: github-pr-review
           sqlfluff_version: "3.4.2"
           sqlfluff_command: "fix" # Or "lint"
-          config: "${{ github.workspace }}/.sqlfluff"
           paths: "${{ github.workspace }}/Databases"
           level: "info"
           filter_mode: "file"
