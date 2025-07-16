@@ -23,13 +23,12 @@ jobs:
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
           sqlfluff_version: "3.4.2"
-          sqlfluff_command: "lint" # Or "lint"
+          sqlfluff_command: "fix" # Or "lint"
           paths: "${{ github.workspace }}/Databases"
           level: "info"
           filter_mode: "file"
           reviewdog_version: "v0.20.2"
-          file_pattern: '\.sql$'
-          dialect: "ansi"
+          dialect: "tsql"
           fail_on_error: "false"
           templater: "jinja"
       - name: "Show outputs (Optional)"
