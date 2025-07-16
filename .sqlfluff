@@ -1,0 +1,45 @@
+[sqlfluff]
+# Specify the SQL dialect being used, e.g., ansi, postgres, mysql, etc.
+dialect = ansi
+
+# Paths to include or exclude for linting
+exclude_rules = 
+templater = jinja
+
+# Ignore specific files or directories (comma separated)
+exclude_paths = .venv,.git,__pycache__
+
+# Set the maximum line length
+max_line_length = 80
+
+# Whether to parse templated SQL
+templater = jinja
+
+# Set verbosity: 0 (least) - 3 (most verbose)
+verbosity = 1
+
+# Enable linting for all .sql files
+sql_file_exts = .sql
+
+[sqlfluff:rules]
+allow_scalar = True
+single_table_references = consistent
+unquoted_identifiers_policy = all
+
+[sqlfluff:rules:capitalisation.keywords]
+capitalisation_policy = upper
+
+# You can disable rules by setting to 'ignore'
+# L009 = ignore
+
+[sqlfluff:templater:jinja]
+# Any Jinja-specific configurations can go here
+apply_dbt_builtins = false
+
+# Macros paths, if using dbt
+# dbt_profiles_dir = ./profiles
+
+[sqlfluff:format]
+# Autoformatting settings
+reindent = true
+reindent_aligned = true

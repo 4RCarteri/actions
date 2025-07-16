@@ -31,6 +31,7 @@ jobs:
           file_pattern: '\.sql$'
           dialect: "ansi"
           fail_on_error: "false"
+          config: "${{ github.workspace }}/.sqlfluff"
       - name: "Show outputs (Optional)"
         shell: bash
         run: |
