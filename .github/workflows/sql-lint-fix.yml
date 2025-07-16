@@ -23,7 +23,7 @@ jobs:
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
           sqlfluff_version: "3.4.2"
-          sqlfluff_command: "fix" # Or "lint"
+          sqlfluff_command: "lint" # Or "lint"
           paths: "${{ github.workspace }}/Databases"
           level: "info"
           filter_mode: "file"
