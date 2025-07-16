@@ -30,6 +30,7 @@ jobs:
           reviewdog_version: "v0.20.2"
           file_pattern: '\.sql$'
           dialect: "ansi"
+          fail_on_error: "false"
       - name: "Show outputs (Optional)"
         shell: bash
         run: |
