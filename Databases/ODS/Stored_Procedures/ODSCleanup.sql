@@ -26,6 +26,7 @@ BEGIN
         ON a.AddressID = cca.AddressID
       LEFT OUTER JOIN PersonAddress AS pa
         ON a.AddressID = pa.AddressID
-	WHERE ca.CompanyAddressID IS NULL AND cca.ContactAddressID IS NULL))
+      WHERE ca.CompanyAddressID IS NULL AND cca.ContactAddressID IS NULL
+    ))
 
 END
