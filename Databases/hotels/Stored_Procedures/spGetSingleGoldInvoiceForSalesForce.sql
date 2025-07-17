@@ -1,5 +1,5 @@
 CREATE OR ALTER PROCEDURE [dbo].[spGetSingleGoldInvoiceForSalesForce]
-	@PONumber varchar(12)
+  @PONumber VARCHAR(12)
 AS
 
 	-- SET NOCOUNT ON added to prevent extra result sets from
