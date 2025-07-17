@@ -21,15 +21,10 @@ jobs:
         id: fix-sql
         with:
           github_token: ${{ secrets.github_token }}
-          reporter: github-pr-review
-          sqlfluff_version: "3.4.2"
-          sqlfluff_command: "fix" # Or "lint"
+          sqlfluff_command: "fix"
           config: "${{ github.workspace }}/.sqlfluff"
           paths: "${{ github.workspace }}/Databases/**"
-          level: "info"
-          reviewdog_version: "v0.20.3"
           dialect: "tsql"
-          fail_on_error: "true"
   sql-lint-check:
     name: sqlfluff lint
     runs-on: ubuntu-latest
@@ -39,12 +34,7 @@ jobs:
         id: lint-sql
         with:
           github_token: ${{ secrets.github_token }}
-          reporter: github-pr-review
-          sqlfluff_version: "3.4.2"
-          sqlfluff_command: "lint" # Or "lint"
+          sqlfluff_command: "lint"
           config: "${{ github.workspace }}/.sqlfluff"
           paths: "${{ github.workspace }}/Databases/**"
-          level: "error"
-          reviewdog_version: "v0.20.3"
           dialect: "tsql"
-          fail_on_error: "true"
