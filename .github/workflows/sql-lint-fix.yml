@@ -28,6 +28,7 @@ jobs:
           paths: "${{ github.workspace }}/Databases/**"
           dialect: "tsql"
           fail_on_error: "true"
+          level: "info"
 
   sql-lint-check:
     name: sqlfluff lint
@@ -46,4 +47,5 @@ jobs:
           paths: "${{ github.workspace }}/Databases/**"
           dialect: "tsql"
           fail_on_error: "true"
+          level: "info"
 
