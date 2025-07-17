@@ -17,7 +17,6 @@ max_line_length = 0
 [sqlfluff:layout:type:alias_expression]
 spacing_before = align
 align_within = select_clause
-spacing_after = touch
 
 [sqlfluff:indentation]
 tab_space_size = 2
