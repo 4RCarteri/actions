@@ -16,6 +16,7 @@ jobs:
           sqlfluff_command: "fix" # Or "lint"
           config: "${{ github.workspace }}/.sqlfluff"
           paths: "${{ github.workspace }}/Databases"
+          dialect: "tsql"
       - name: "Show outputs (Optional)"
         shell: bash
         run: |
@@ -36,7 +37,7 @@ jobs:
           sqlfluff_version: "3.4.2"
           sqlfluff_command: "lint"
           config: "${{ github.workspace }}/.sqlfluff"
-          paths: "${{ github.workspace }}/Databases/**"
+          paths: "${{ github.workspace }}/Databases"
           dialect: "tsql"
           fail_on_error: "true"
           level: "info"
