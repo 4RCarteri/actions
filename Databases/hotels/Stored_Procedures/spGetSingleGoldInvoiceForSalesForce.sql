@@ -6,15 +6,16 @@ AS
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
 
-;with TireCount AS (
-						SELECT ii.ResellerInvoiceID
-								,SUM(CASE WHEN t.TireTypeID IN (1,3) THEN ii.Quantity ELSE 0 END) AS NewTireCount
-								,SUM(CASE WHEN t.TireTypeID IN (2) THEN ii.Quantity ELSE 0 END) AS RetreadTireCount
-						FROM	ResellerInvoiceItem ii
-								INNER JOIN Product p on p.ProductID = ii.ProductID and p.ProductCategoryID = 1
-								INNER JOIN Tire t on ii.ProductID = t.ProductID
-						GROUP BY ii.ResellerInvoiceID
-					)
+; WITH TireCount AS (
+  SELECT
+    ii.ResellerInvoiceID,
+    SUM(CASE WHEN t.TireTypeID IN (1, 3) THEN ii.Quantity ELSE 0 END) AS NewTireCount,
+    SUM(CASE WHEN t.TireTypeID IN (2) THEN ii.Quantity ELSE 0 END)    AS RetreadTireCount
+  FROM ResellerInvoiceItem AS ii
+  INNER JOIN Product AS pON ii.ProductID = p.ProductID AND p.ProductCategoryID = 1
+  INNER JOIN Tire AS tON ii.ProductID = t.ProductID
+  GROUP BY ii.ResellerInvoiceID
+)
 
 SELECT
   dc.SalesforceID                                            AS Dealer,
