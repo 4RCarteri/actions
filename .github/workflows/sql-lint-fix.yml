@@ -20,7 +20,7 @@ jobs:
   #       with:
   #         token: ${{ secrets.github_token }}
   #         mode: "resolve"
-  fix-check:
+  sql-fix-check:
     name: sqlfluff fix
     runs-on: ubuntu-latest
     steps:
@@ -38,10 +38,10 @@ jobs:
           reviewdog_version: "v0.20.3"
           dialect: "tsql"
           fail_on_error: "true"
-  lint-check:
+  sql-lint-check:
     name: sqlfluff lint
     runs-on: ubuntu-latest
-    needs: fix-check
+    needs: sql-fix-check
     steps:
       - uses: actions/checkout@v4
       - uses: yu-iskw/action-sqlfluff@v5
