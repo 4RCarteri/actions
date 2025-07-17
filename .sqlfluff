@@ -1,17 +1,19 @@
+# Template documentation for SQLFluff configuration file: https://medium.com/@alice_thomaz/automating-sql-code-formatting-with-sqlfluff-4723779f19c6
 [sqlfluff]
 templater = jinja
-dialect = tsql # Specify the SQL dialect to use, tsql= Microsoft T-SQL
-exclude_rules = 
-    CP02 # CP02: [capitalisation.identifiers] - Unquoted identifiers must be consistently lower case.
-    LT05 # LT05: [layout.long_lines] - Lines must not exceed the maximum line length.
-    RF05 # RF05: [references.special_chars] - Do not use special characters in identifiers.
-                
-ignore = templating  
-large_file_skip_byte_limit = 0 # No limit on file size for skipping large files
-max_line_length = 0  # No limit on line length
+# Specify the SQL dialect to use, tsql= Microsoft T-SQL
+exclude_rules =
+    CP02,
+    LT05,
+    RF05
+# CP02: [capitalisation.identifiers] - Unquoted identifiers must be consistently lower case.
+# LT05: [layout.long_lines] - Lines must not exceed the maximum line length.
+# RF05: [references.special_chars] - Do not use special characters in identifiers.
 
+large_file_skip_byte_limit = 0
+max_line_length = 0
 
-[sqlfluff:layout:type:alias_expression] # This Rule is responsible for aligning all the 'As' for renamed columns in Select.
+[sqlfluff:layout:type:alias_expression]
 spacing_before = align
 align_within = select_clause
 spacing_after = touch
