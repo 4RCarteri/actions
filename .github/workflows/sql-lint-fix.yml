@@ -29,7 +29,7 @@ jobs:
           level: "error"
           reviewdog_version: "v0.20.3"
           dialect: "tsql"
-          fail_on_error: "false"
+          fail_on_error: "true"
       - uses: yu-iskw/action-sqlfluff@v5
         id: lint-sql
         with:
