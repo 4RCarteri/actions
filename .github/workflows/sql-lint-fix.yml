@@ -19,7 +19,7 @@ jobs:
       - uses: Ardiannn08/resolve-outdated-comment@v1.3
         with:
           token: ${{ secrets.github_token }}
-          filter-user: "github-actions"
+          filter-user: "github-actions[bot]"
           mode: "delete"
   fix-check:
     name: sqlfluff fix
