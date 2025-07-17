@@ -5,7 +5,7 @@ CREATE PROCEDURE [dbo].[spHotelsBookingReport]
 AS
 Select
 		format(o.DateCreated, 'MM/dd/yyyy') AS 'Hotel Booking Date', -- src.Payment.Order.DateCreated.ToString(dateFormat)
-		o.AccountNumber as 'Account Number', -- src.Payment.Order.AccountNumber
+		o.AccountNumber As 'Account Number', -- src.Payment.Order.AccountNumber
 		pmt.TransactionType as 'Transaction Type', -- src.TransactionType
 		format(o.StartDate, 'MM/dd/yyyy') as 'Hotel Check In Date', -- src.Payment.Order.StartDate.ToString(dateFormat)
 		format(o.EndDate, 'MM/dd/yyyy') as 'Check Out Date', -- src.Payment.Order.EndDate.ToString(dateFormat)
