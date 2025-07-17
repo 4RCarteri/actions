@@ -57,6 +57,6 @@ From	ResellerInvoice reci
 		Inner Join Region r on r.RegionID = rs.RegionID
 		Inner Join [User] u on u.UserID = r.TireSpecialistUserID
 
-Where	po.PurchaseOrderNumber = @PONumber
-and		reci.ResellerInvoiceTypeID = 2
-and		payi.ResellerInvoiceTypeID = 1
+WHERE po.PurchaseOrderNumber = @PONumber
+  AND reci.ResellerInvoiceTypeID = 2
+  AND payi.ResellerInvoiceTypeID = 1
