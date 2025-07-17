@@ -15,6 +15,8 @@ jobs:
   resolve-comment:
     name: "Auto Resolve Comment"
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - name: Resolve comments from github-actions bot
         uses: actions/github-script@v7
