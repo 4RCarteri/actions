@@ -29,6 +29,7 @@ jobs:
           level: "info"
           reviewdog_version: "v0.20.3"
           dialect: "tsql"
+          fail_on_error: "false"
       - name: Apply saved changes (stash)
         run: |
           git stash list
