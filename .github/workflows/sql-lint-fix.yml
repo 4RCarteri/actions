@@ -16,100 +16,70 @@ jobs:
     name: "Auto Resolve Comment"
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Resolve comments from github-actions bot
+        uses: actions/github-script@v7
         with:
-          python-version: 3.x
+          script: |
+            const botLogin = "github-actions[bot]";
+            const prNodeId = context.payload.pull_request.node_id;
 
-      - name: Install dependencies
-        run: pip install requests
-
-      - name: Resolve Bot Comments
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          REPO: ${{ github.repository }}
-        run: |
-          python <<EOF
-          import os
-          import requests
-
-          token = os.environ["GITHUB_TOKEN"]
-          repo = os.environ["REPO"]
-          pr_number = os.environ.get("PR_NUMBER")
-
-          # Get PR review threads via GraphQL
-          query = """
-          query($owner: String!, $name: String!, $number: Int!, $after: String) {
-            repository(owner: $owner, name: $name) {
-              pullRequest(number: $number) {
-                reviewThreads(first: 100, after: $after) {
-                  pageInfo {
-                    hasNextPage
-                    endCursor
-                  }
-                  nodes {
-                    id
-                    comments(first: 1) {
-                      nodes {
-                        author {
-                          login
+            // 1. Find all unresolved review threads on the PR
+            // Note: This query fetches up to 100 threads. For PRs with more,
+            // you would need to implement pagination.
+            const query = `query($prNodeId: ID!) {
+              node(id: $prNodeId) {
+                ... on PullRequest {
+                  reviewThreads(first: 100) {
+                    nodes {
+                      id
+                      isResolved
+                      comments(first: 1) {
+                        nodes {
+                          author {
+                            login
+                          }
                         }
                       }
                     }
-                    isResolved
                   }
                 }
               }
+            }`;
+
+            const variables = { prNodeId };
+            const result = await github.graphql(query, variables);
+
+            // 2. Filter threads to find the ones started by the bot
+            const threadsToResolve = result.node.reviewThreads.nodes.filter(thread =>
+              !thread.isResolved &&
+              thread.comments.nodes.length > 0 &&
+              thread.comments.nodes[0].author.login === botLogin
+            );
+
+            if (threadsToResolve.length === 0) {
+              core.info(`No unresolved comments from '${botLogin}' to resolve.`);
+              return;
             }
-          }
-          """
 
-          owner, name = repo.split("/")
-          after = None
-          thread_ids = []
-          headers = {"Authorization": f"Bearer {token}"}
-          while True:
-              variables = {"owner": owner, "name": name, "number": int(pr_number), "after": after}
-              res = requests.post(
-                  "https://api.github.com/graphql",
-                  json={"query": query, "variables": variables},
-                  headers=headers,
-              )
-              data = res.json()
-              threads = data["data"]["repository"]["pullRequest"]["reviewThreads"]["nodes"]
-              for thread in threads:
-                  author = thread["comments"]["nodes"][0]["author"]["login"]
-                  if author == "github-action" and not thread["isResolved"]:
-                      thread_ids.append(thread["id"])
-              page = data["data"]["repository"]["pullRequest"]["reviewThreads"]["pageInfo"]
-              if page["hasNextPage"]:
-                  after = page["endCursor"]
-              else:
-                  break
+            core.info(`Found ${threadsToResolve.length} unresolved thread(s) from '${botLogin}'. Resolving...`);
 
-          # Resolve threads
-          mutation = """
-          mutation($id: ID!) {
-            resolveReviewThread(input: {threadId: $id}) {
-              thread {
-                isResolved
+            // 3. Resolve each of those threads using a mutation
+            const resolveMutation = `mutation($threadId: ID!) {
+              resolveReviewThread(input: {threadId: $threadId}) {
+                thread {
+                  id
+                }
+              }
+            }`;
+
+            for (const thread of threadsToResolve) {
+              try {
+                await github.graphql(resolveMutation, { threadId: thread.id });
+                core.info(`✅ Resolved thread ${thread.id}`);
+              } catch (error) {
+                core.error(`❌ Failed to resolve thread ${thread.id}: ${error.message}`);
               }
             }
-          }
-          """
-          for thread_id in thread_ids:
-              requests.post(
-                  "https://api.github.com/graphql",
-                  json={"query": mutation, "variables": {"id": thread_id}},
-                  headers=headers,
-              )
-
-          print(f"Resolved {len(thread_ids)} threads created by github-action bot.")
-          EOF
   fix-check:
     name: sqlfluff fix
     runs-on: ubuntu-latest
