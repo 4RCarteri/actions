@@ -26,6 +26,11 @@ jobs:
           paths: "${{ github.workspace }}/Databases/**"
           dialect: "tsql"
           reviewdog_version: "v0.20.3"
+          fail_on_error: "true"
+          filter_mode: "file"
+          level: "info"
+          sqlfluff_version: "3.4.2"
+
   sql-lint-check:
     name: sqlfluff lint
     runs-on: ubuntu-latest
@@ -40,3 +45,8 @@ jobs:
           paths: "${{ github.workspace }}/Databases/**"
           dialect: "tsql"
           reviewdog_version: "v0.20.3"
+          fail_on_error: "true"
+          filter_mode: "file"
+          level: "info"
+          sqlfluff_version: "3.4.2"
+
