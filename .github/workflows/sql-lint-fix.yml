@@ -13,10 +13,11 @@ jobs:
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
           sqlfluff_version: "3.4.2"
-          sqlfluff_command: "fix" # Or "lint"
+          sqlfluff_command: "fix"
           config: "${{ github.workspace }}/.sqlfluff"
           paths: "${{ github.workspace }}/Databases"
           dialect: "tsql"
+          level: "info"
       - name: "Show outputs (Optional)"
         shell: bash
         run: |
