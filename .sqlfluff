@@ -1,0 +1,83 @@
+# Template documentation for SQLFluff configuration file: https://medium.com/@alice_thomaz/automating-sql-code-formatting-with-sqlfluff-4723779f19c6
+[sqlfluff]
+templater = jinja
+# Specify the SQL dialect to use, tsql= Microsoft T-SQL
+exclude_rules =
+    CP02,
+    LT05,
+    RF05
+# CP02: [capitalisation.identifiers] - Unquoted identifiers must be consistently lower case.
+# LT05: [layout.long_lines] - Lines must not exceed the maximum line length.
+# RF05: [references.special_chars] - Do not use special characters in identifiers.
+
+large_file_skip_byte_limit = 0
+max_line_length = 0
+
+[sqlfluff:layout:type:alias_expression]
+spacing_before = align
+align_within = select_clause
+spacing_after = touch
+
+[sqlfluff:indentation]
+tab_space_size = 2
+indent_unit = space
+indented_joins = false
+indented_using_on = true
+allow_implicit_indents = true
+indented_on_contents = false
+indented_ctes = false
+
+[sqlfluff:rules:aliasing.table]
+aliasing.table = explicit
+
+[sqlfluff:rules:aliasing.column]
+aliasing.column = explicit
+
+[sqlfluff:rules:aliasing.expression]
+allow_scalar = True
+
+[sqlfluff:rules:ambiguous.join]
+fully_qualify_join_types = inner
+
+[sqlfluff:rules:ambiguous.column_references]     
+group_by_and_order_by_style = consistent
+
+[sqlfluff:rules:capitalisation.keywords]
+capitalisation_policy = upper
+
+[sqlfluff:rules:capitalisation.identifiers]
+extended_capitalisation_policy = lower
+unquoted_identifiers_policy = all
+
+[sqlfluff:rules:capitalisation.functions]
+extended_capitalisation_policy = upper
+
+[sqlfluff:rules:capitalisation.literals]
+capitalisation_policy = upper
+
+[sqlfluff:rules:capitalisation.types]
+extended_capitalisation_policy = upper
+
+[sqlfluff:rules:jinja.padding]
+single_space = true
+
+[sqlfluff:rules:layout.spacing]
+no_trailing_whitespace = true
+extra_whitespace = false
+
+[sqlfluff:rules:layout.commas]
+line_position = trailing
+
+[sqlfluff:rules:layout.functions]
+no_space_after_function_name = true
+
+[sqlfluff:rules:layout.select_targets]
+wildcard_policy = single
+
+[sqlfluff:rules:layout.set_operators]
+set_operator_on_new_line = ['UNION', 'UNION ALL']
+
+[sqlfluff:rules:structure.nested_case]
+
+[sqlfluff:rules:structure.subquery]
+forbid_subquery_in = join
