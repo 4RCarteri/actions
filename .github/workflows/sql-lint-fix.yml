@@ -20,14 +20,14 @@ jobs:
       - uses: yu-iskw/action-sqlfluff@v5
         id: fix-sql
         with:
-          reporter: "github-pr-review"
           github_token: ${{ secrets.github_token }}
+          reporter: "github-pr-review"
+          sqlfluff_version: "3.4.2"
           sqlfluff_command: "fix"
           config: "${{ github.workspace }}/.sqlfluff"
           paths: "${{ github.workspace }}/Databases/**"
           dialect: "tsql"
           fail_on_error: "true"
-          sqlfluff_version: "3.4.2"
 
   sql-lint-check:
     name: sqlfluff lint
@@ -38,12 +38,12 @@ jobs:
       - uses: yu-iskw/action-sqlfluff@v5
         id: lint-sql
         with:
-          reporter: "github-pr-review"
           github_token: ${{ secrets.github_token }}
+          reporter: "github-pr-review"
+          sqlfluff_version: "3.4.2"
           sqlfluff_command: "lint"
           config: "${{ github.workspace }}/.sqlfluff"
           paths: "${{ github.workspace }}/Databases/**"
           dialect: "tsql"
           fail_on_error: "true"
-          sqlfluff_version: "3.4.2"
 
