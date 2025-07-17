@@ -5,6 +5,8 @@ jobs:
   sql-fix-check:
     name: runner / sqlfluff (github-check)
     runs-on: ubuntu-latest
+    env:
+      UV_LINK_MODE: copy
     steps:
       - uses: actions/checkout@v4
       - uses: yu-iskw/action-sqlfluff@v5
@@ -17,7 +19,7 @@ jobs:
           config: "${{ github.workspace }}/.sqlfluff"
           paths: "${{ github.workspace }}/Databases"
           dialect: "tsql"
-          level: "info"
+          fail_on_error: "true"
       - name: "Show outputs (Optional)"
         shell: bash
         run: |
@@ -27,6 +29,8 @@ jobs:
   sql-lint-check:
     name: sqlfluff lint
     runs-on: ubuntu-latest
+    env:
+      UV_LINK_MODE: copy
     needs: sql-fix-check
     steps:
       - uses: actions/checkout@v4
