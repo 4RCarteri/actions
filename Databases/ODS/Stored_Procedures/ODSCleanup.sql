@@ -6,9 +6,9 @@ BEGIN
   -- interfering with SELECT statements.
   SET NOCOUNT ON;
 
-    -- Clear out our error logs
-	DELETE FROM ApplicationError
-	WHERE ErrorDate < DATEADD(MONTH, -1, GETDATE())
+  -- Clear out our error logs
+  DELETE FROM ApplicationError
+  WHERE ErrorDate < DATEADD(MONTH, -1, GETDATE())
 
 	--clear oulder log entries
 	DELETE 
