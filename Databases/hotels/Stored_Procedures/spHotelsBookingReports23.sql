@@ -1,4 +1,4 @@
-CREATE PROCEDURE [dbo].[spHotelsBookingReport]
+cREATE PROCEDURE [dbo].[spHotelsBookingReport]
 @StartDate datetime,
 @EndDate datetime
 
@@ -7,7 +7,7 @@ Select
 		format(o.DateCreated, 'MM/dd/yyyy') As 'Hotel Booking Date', -- src.Payment.Order.DateCreated.ToString(dateFormat)
 		o.AccountNumber As 'Account Number', -- src.Payment.Order.AccountNumber
 		pmt.TransactionType as 'Transaction Type', -- src.TransactionType
-		format(o.StartDate, 'MM/dd/yyyy') as 'Hotel Check In Date', -- src.Payment.Order.StartDate.ToString(dateFormat)
+		format(o.StartDate, 'MM/dd/yyyy') As 'Hotel Check In Date', -- src.Payment.Order.StartDate.ToString(dateFormat)
 		format(o.EndDate, 'MM/dd/yyyy') as 'Check Out Date', -- src.Payment.Order.EndDate.ToString(dateFormat)
 		ppty.[Name] as 'Hotel Name', -- src.Payment.Order.Property.Name
 		ppty.Street1 + ' ' + ppty.Street2 + ' ' + ppty.Street3  as 'Hotel Address', -- src.Payment.Order.Property.Street1 + " " + src.Payment.Order.Property.Street2 + " " + src.Payment.Order.Property.Street3
