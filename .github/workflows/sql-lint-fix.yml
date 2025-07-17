@@ -2,6 +2,14 @@ name: sqlfluff with reviewdog
 on:
   pull_request:
 jobs:
+  resolve-outdated-comment:
+    name: "Auto Resolve Comment"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: Ardiannn08/resolve-outdated-comment@v1.3
+        with:
+          token: ${{ secrets.github_token }}
+          mode: "resolve"
   sql-fix-check:
     name: runner / sqlfluff (github-check)
     runs-on: ubuntu-latest
