@@ -16,24 +16,25 @@ AS
 						GROUP BY ii.ResellerInvoiceID
 					)
 
-Select	dc.SalesforceID as Dealer
-		,mc.SalesforceID as Member
-		,vc.SalesforceID as Vendor
-		,u.SalesforceID as TireSpecialist
-		,COALESCE(vi.VendorInvoiceNumber, po.PurchaseOrderNumber) as VendorInvoiceNumber
-		,COALESCE(vi.IssueDate, po.CreatedDate) as VendorInvoiceDate
-		,po.PurchaseOrderNumber
-		,po.DeliveryReceipt
-		,po.CreatedDate
-		,reci.CreatedDate as IssueDate
-		,pocv.CreditVendor as PaymentMethod
-		,ISNULL(recTire.NewTireCount, 0) as NewTireCount
-		,ISNULL(recTire.RetreadTireCount, 0) as RetreadTireCount
-		,ISNULL(recTire.NewTireCount + recTire.RetreadTireCount, 0) as TireCount
-		,recit.InvoiceTotal as ReceivableAmount
-		,recit.InvoiceTax as ReceivableTax
-		,payit.InvoiceTotal as PayableAmount
-		,payit.InvoiceTax as PayableTax
+SELECT
+  dc.SalesforceID                                            AS Dealer,
+  mc.SalesforceID                                            AS Member,
+  vc.SalesforceID                                            AS Vendor,
+  u.SalesforceID                                             AS TireSpecialist,
+  po.PurchaseOrderNumber,
+  po.DeliveryReceipt,
+  po.CreatedDate,
+  reci.CreatedDate                                           AS IssueDate,
+  pocv.CreditVendor                                          AS PaymentMethod,
+  recit.InvoiceTotal                                         AS ReceivableAmount,
+  recit.InvoiceTax                                           AS ReceivableTax,
+  payit.InvoiceTotal                                         AS PayableAmount,
+  payit.InvoiceTax                                           AS PayableTax,
+  COALESCE(vi.VendorInvoiceNumber, po.PurchaseOrderNumber)   AS VendorInvoiceNumber,
+  COALESCE(vi.IssueDate, po.CreatedDate)                     AS VendorInvoiceDate,
+  ISNULL(recTire.NewTireCount, 0)                            AS NewTireCount,
+  ISNULL(recTire.RetreadTireCount, 0)                        AS RetreadTireCount,
+  ISNULL(recTire.NewTireCount + recTire.RetreadTireCount, 0) AS TireCount
 
 FROM ResellerInvoice AS reci
 INNER JOIN ResellerInvoice AS payiON reci.PurchaseOrderID = payi.PurchaseOrderID
