@@ -12,19 +12,15 @@ permissions:
   contents: read
 
 jobs:
-  # resolve-comment:
-  #   name: "Auto Resolve Comment"
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: Ardiannn08/resolve-outdated-comment@v1.3
-  #       with:
-  #         token: ${{ secrets.github_token }}
-  #         mode: "resolve"
+  checkout:
+    name: Checkout
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
   sql-fix-check:
     name: sqlfluff fix
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
       - uses: yu-iskw/action-sqlfluff@v5
         id: fix-sql
         with:
@@ -42,7 +38,6 @@ jobs:
     name: sqlfluff lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
       - uses: yu-iskw/action-sqlfluff@v5
         id: lint-sql
         with:
