@@ -7,12 +7,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: yu-iskw/action-sqlfluff@v4
+      - uses: yu-iskw/action-sqlfluff@v5
         id: fix-sql
         with:
           github_token: ${{ secrets.github_token }}
           reporter: github-pr-review
-          sqlfluff_version: "3.3.1"
+          sqlfluff_version: "3.4.2"
           sqlfluff_command: "fix" # Or "lint"
           config: "${{ github.workspace }}/.sqlfluff"
           paths: "${{ github.workspace }}/Databases"

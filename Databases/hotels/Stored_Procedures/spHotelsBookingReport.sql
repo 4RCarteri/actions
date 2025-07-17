@@ -8,7 +8,7 @@ Select
 		o.AccountNumber AS 'Account Number', -- src.Payment.Order.AccountNumber
 		pmt.TransactionType AS 'Transaction Type', -- src.TransactionType
 		format(o.StartDate, 'MM/dd/yyyy') AS 'Hotel Check In Date', -- src.Payment.Order.StartDate.ToString(dateFormat)
-		format(o.EndDate, 'MM/dd/yyyy') as 'Check Out Date', -- src.Payment.Order.EndDate.ToString(dateFormat)
+		format(o.EndDate, 'MM/dd/yyyy') aS 'Check Out Date', -- src.Payment.Order.EndDate.ToString(dateFormat)
 		ppty.[Name] as 'Hotel Name', -- src.Payment.Order.Property.Name
 		ppty.Street1 + ' ' + ppty.Street2 + ' ' + ppty.Street3  as 'Hotel Address', -- src.Payment.Order.Property.Street1 + " " + src.Payment.Order.Property.Street2 + " " + src.Payment.Order.Property.Street3
 		ppty.City as 'Hotel City', -- src.Payment.Order.Property.City
