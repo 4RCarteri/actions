@@ -10,10 +10,10 @@ BEGIN
   DELETE FROM ApplicationError
   WHERE ErrorDate < DATEADD(MONTH, -1, GETDATE())
 
-	--clear oulder log entries
-	DELETE 
-	FROM ApplicationLog
-	WHERE LogDate > DATEADD(DAY, -90, GETDATE())
+  --clear oulder log entries
+  DELETE
+  FROM ApplicationLog
+  WHERE LogDate > DATEADD(DAY, -90, GETDATE())
 
   -- Delete any addresses that aren't connected anymore
   DELETE FROM Address
