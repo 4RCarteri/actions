@@ -27,7 +27,7 @@ jobs:
           config: "${{ github.workspace }}/.sqlfluff"
           paths: "${{ github.workspace }}/Databases/**"
           level: "error"
-          reviewdog_version: "v0.20.3"
+          reviewdog_version: "v0.20.1"
           dialect: "tsql"
           fail_on_error: "true"
       - uses: yu-iskw/action-sqlfluff@v5
@@ -40,6 +40,6 @@ jobs:
           config: "${{ github.workspace }}/.sqlfluff"
           paths: "${{ github.workspace }}/Databases/**"
           level: "error"
-          reviewdog_version: "v0.20.3"
+          reviewdog_version: "v0.20.1"
           dialect: "tsql"
           fail_on_error: "true"
