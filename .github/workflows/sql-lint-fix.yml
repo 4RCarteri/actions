@@ -15,73 +15,11 @@ jobs:
   resolve-comment:
     name: "Auto Resolve Comment"
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
     steps:
-      - name: Resolve comments from github-actions bot
-        uses: actions/github-script@v7
+      - uses: Ardiannn08/resolve-outdated-comment@v1.3
         with:
-          script: |
-            const botLogin = "github-actions";
-            const prNodeId = context.payload.pull_request.node_id;
-
-            // 1. Find all unresolved review threads on the PR
-            // Note: This query fetches up to 100 threads. For PRs with more,
-            // you would need to implement pagination.
-            const query = `query($prNodeId: ID!) {
-              node(id: $prNodeId) {
-                ... on PullRequest {
-                  reviewThreads(first: 100) {
-                    nodes {
-                      id
-                      isResolved
-                      comments(first: 1) {
-                        nodes {
-                          author {
-                            login
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }`;
-
-            const variables = { prNodeId };
-            const result = await github.graphql(query, variables);
-
-            // 2. Filter threads to find the ones started by the bot
-            const threadsToResolve = result.node.reviewThreads.nodes.filter(thread =>
-              !thread.isResolved &&
-              thread.comments.nodes.length > 0 &&
-              thread.comments.nodes[0].author.login === botLogin
-            );
-
-            if (threadsToResolve.length === 0) {
-              core.info(`No unresolved comments from '${botLogin}' to resolve.`);
-              return;
-            }
-
-            core.info(`Found ${threadsToResolve.length} unresolved thread(s) from '${botLogin}'. Resolving...`);
-
-            // 3. Resolve each of those threads using a mutation
-            const resolveMutation = `mutation($threadId: ID!) {
-              resolveReviewThread(input: {threadId: $threadId}) {
-                thread {
-                  id
-                }
-              }
-            }`;
-
-            for (const thread of threadsToResolve) {
-              try {
-                await github.graphql(resolveMutation, { threadId: thread.id });
-                core.info(`✅ Resolved thread ${thread.id}`);
-              } catch (error) {
-                core.error(`❌ Failed to resolve thread ${thread.id}: ${error.message}`);
-              }
-            }
+          token: ${{ secrets.github_token }}
+          mode: "resolve"
   fix-check:
     name: sqlfluff fix
     runs-on: ubuntu-latest
