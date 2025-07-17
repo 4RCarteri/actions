@@ -1,6 +1,6 @@
 CREATE PROCEDURE [dbo].[spHotelsBookingReport]
-@StartDate datetime,
-@EndDate datetime
+  @StartDate DATETIME,
+  @EndDate DATETIME
 
 AS
 Select
