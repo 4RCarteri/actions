@@ -19,11 +19,11 @@ jobs:
       - uses: Ardiannn08/resolve-outdated-comment@v1.3
         with:
           token: ${{ secrets.github_token }}
-          filter-user: "github-actions[bot]"
-          mode: "delete"
+          mode: "resolve"
   fix-check:
     name: sqlfluff fix
     runs-on: ubuntu-latest
+    needs: resolve-comment
     steps:
       - uses: actions/checkout@v4
       - uses: yu-iskw/action-sqlfluff@v5
@@ -42,6 +42,7 @@ jobs:
   lint-check:
     name: sqlfluff lint
     runs-on: ubuntu-latest
+    needs: fix-check
     steps:
       - uses: actions/checkout@v4
       - uses: yu-iskw/action-sqlfluff@v5
