@@ -9,10 +9,11 @@ jobs:
       - uses: Ardiannn08/resolve-outdated-comment@v1.3
         with:
           token: ${{ secrets.github_token }}
-          mode: "resolve"
+          mode: "delete"
   sql-fix-check:
-    name: runner / sqlfluff (github-check)
+    name: sqlfluff fix
     runs-on: ubuntu-latest
+    needs: resolve-outdated-comment
     steps:
       - uses: actions/checkout@v4
       - uses: yu-iskw/action-sqlfluff@v5
@@ -26,15 +27,11 @@ jobs:
           paths: "${{ github.workspace }}/Databases"
           dialect: "tsql"
           fail_on_error: "true"
-      - name: "Show outputs (Optional)"
-        shell: bash
-        run: |
-          echo '${{ steps.fix-sql.outputs.sqlfluff-results }}' | jq -r '.'
-          echo '${{ steps.fix-sql.outputs.sqlfluff-results-rdjson }}' | jq -r '.'
 
   sql-lint-check:
     name: sqlfluff lint
     runs-on: ubuntu-latest
+    needs: resolve-outdated-comment
     steps:
       - uses: actions/checkout@v4
       - uses: yu-iskw/action-sqlfluff@v5
@@ -48,9 +45,4 @@ jobs:
           paths: "${{ github.workspace }}/Databases"
           dialect: "tsql"
           fail_on_error: "true"
-      - name: "Show outputs (Optional)"
-        shell: bash
-        run: |
-          echo '${{ steps.lint-sql.outputs.sqlfluff-results }}' | jq -r '.'
-          echo '${{ steps.lint-sql.outputs.sqlfluff-results-rdjson }}' | jq -r '.'
 

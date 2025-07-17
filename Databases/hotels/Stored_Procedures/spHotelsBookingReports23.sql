@@ -8,7 +8,7 @@ Select
 		o.AccountNumber As 'Account Number', -- src.Payment.Order.AccountNumber
 		pmt.TransactionType as 'Transaction Type', -- src.TransactionType
 		format(o.StartDate, 'MM/dd/yyyy') As 'Hotel Check In Date', -- src.Payment.Order.StartDate.ToString(dateFormat)
-		format(o.EndDate, 'MM/dd/yyyy') as 'Check Out Date', -- src.Payment.Order.EndDate.ToString(dateFormat)
+		format(o.EndDate, 'MM/dd/yyyy') aS 'Check Out Date', -- src.Payment.Order.EndDate.ToString(dateFormat)
 		ppty.[Name] as 'Hotel Name', -- src.Payment.Order.Property.Name
 		ppty.Street1 + ' ' + ppty.Street2 + ' ' + ppty.Street3  as 'Hotel Address', -- src.Payment.Order.Property.Street1 + " " + src.Payment.Order.Property.Street2 + " " + src.Payment.Order.Property.Street3
 		ppty.City as 'Hotel City', -- src.Payment.Order.Property.City
@@ -34,7 +34,7 @@ Select
 				then (o.TotalStrikethrough-o.TotalExclusive)
 			else 0
 		end as 'Total Savings' -- src.Payment.Order.Savings
-	from
+	froM
 		dbo.[order] o (nolock)
 		inner join dbo.orderstatus os (nolock) on o.OrderStatusId = os.Id
 		inner join dbo.sourcesystem ss (nolock) on o.SourceSystemId = ss.Id
