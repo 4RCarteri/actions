@@ -1,34 +1,26 @@
-name: SQL Lint and Fix
-
+name: sqlfluff with reviewdog
 on:
-  push:
-    branches:
-      - main
   pull_request:
-  workflow_dispatch:
-permissions:
-  pull-requests: write
-  checks: write
-  contents: read
-
 jobs:
   sql-fix-check:
-    name: sqlfluff fix
+    name: runner / sqlfluff (github-check)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: yu-iskw/action-sqlfluff@v5
+      - uses: yu-iskw/action-sqlfluff@v4
         id: fix-sql
         with:
           github_token: ${{ secrets.github_token }}
-          reporter: "github-pr-review"
-          sqlfluff_version: "3.4.2"
-          sqlfluff_command: "fix"
+          reporter: github-pr-review
+          sqlfluff_version: "3.3.1"
+          sqlfluff_command: "fix" # Or "lint"
           config: "${{ github.workspace }}/.sqlfluff"
-          paths: "${{ github.workspace }}/Databases/**"
-          dialect: "tsql"
-          fail_on_error: "true"
-          level: "info"
+          paths: "${{ github.workspace }}/Databases"
+      - name: "Show outputs (Optional)"
+        shell: bash
+        run: |
+          echo '${{ steps.fix-sql.outputs.sqlfluff-results }}' | jq -r '.'
+          echo '${{ steps.fix-sql.outputs.sqlfluff-results-rdjson }}' | jq -r '.'
 
   sql-lint-check:
     name: sqlfluff lint
@@ -48,4 +40,9 @@ jobs:
           dialect: "tsql"
           fail_on_error: "true"
           level: "info"
+      - name: "Show outputs (Optional)"
+        shell: bash
+        run: |
+          echo '${{ steps.lint-sql.outputs.sqlfluff-results }}' | jq -r '.'
+          echo '${{ steps.lint-sql.outputs.sqlfluff-results-rdjson }}' | jq -r '.'
 
