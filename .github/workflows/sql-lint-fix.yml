@@ -27,7 +27,6 @@ jobs:
   sql-lint-check:
     name: sqlfluff lint
     runs-on: ubuntu-latest
-    needs: sql-fix-check
     steps:
       - uses: actions/checkout@v4
       - uses: yu-iskw/action-sqlfluff@v5
