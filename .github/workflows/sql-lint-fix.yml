@@ -26,7 +26,6 @@ jobs:
           config: "${{ github.workspace }}/.sqlfluff"
           paths: "${{ github.workspace }}/Databases"
           dialect: "tsql"
-          fail_on_error: "true"
 
   sql-lint-check:
     name: sqlfluff lint
