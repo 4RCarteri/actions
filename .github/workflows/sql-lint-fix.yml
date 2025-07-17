@@ -16,9 +16,98 @@ jobs:
     name: "Auto Resolve Comment"
     runs-on: ubuntu-latest
     steps:
-      - uses: eficode/resolve-pr-refs@main
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          token: ${{ secrets.github_token }}
+          python-version: 3.x
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Resolve Bot Comments
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          import os
+          import requests
+
+          token = os.environ["GITHUB_TOKEN"]
+          repo = os.environ["REPO"]
+          pr_number = os.environ.get("PR_NUMBER")
+
+          # Get PR review threads via GraphQL
+          query = """
+          query($owner: String!, $name: String!, $number: Int!, $after: String) {
+            repository(owner: $owner, name: $name) {
+              pullRequest(number: $number) {
+                reviewThreads(first: 100, after: $after) {
+                  pageInfo {
+                    hasNextPage
+                    endCursor
+                  }
+                  nodes {
+                    id
+                    comments(first: 1) {
+                      nodes {
+                        author {
+                          login
+                        }
+                      }
+                    }
+                    isResolved
+                  }
+                }
+              }
+            }
+          }
+          """
+
+          owner, name = repo.split("/")
+          after = None
+          thread_ids = []
+          headers = {"Authorization": f"Bearer {token}"}
+          while True:
+              variables = {"owner": owner, "name": name, "number": int(pr_number), "after": after}
+              res = requests.post(
+                  "https://api.github.com/graphql",
+                  json={"query": query, "variables": variables},
+                  headers=headers,
+              )
+              data = res.json()
+              threads = data["data"]["repository"]["pullRequest"]["reviewThreads"]["nodes"]
+              for thread in threads:
+                  author = thread["comments"]["nodes"][0]["author"]["login"]
+                  if author == "github-action" and not thread["isResolved"]:
+                      thread_ids.append(thread["id"])
+              page = data["data"]["repository"]["pullRequest"]["reviewThreads"]["pageInfo"]
+              if page["hasNextPage"]:
+                  after = page["endCursor"]
+              else:
+                  break
+
+          # Resolve threads
+          mutation = """
+          mutation($id: ID!) {
+            resolveReviewThread(input: {threadId: $id}) {
+              thread {
+                isResolved
+              }
+            }
+          }
+          """
+          for thread_id in thread_ids:
+              requests.post(
+                  "https://api.github.com/graphql",
+                  json={"query": mutation, "variables": {"id": thread_id}},
+                  headers=headers,
+              )
+
+          print(f"Resolved {len(thread_ids)} threads created by github-action bot.")
   fix-check:
     name: sqlfluff fix
     runs-on: ubuntu-latest
