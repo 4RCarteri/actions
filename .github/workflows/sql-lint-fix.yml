@@ -4,19 +4,48 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'Databases/**/*.sql'
   pull_request:
   workflow_dispatch:
+permissions:
+  pull-requests: write
+  checks: write
+  contents: read
 
 jobs:
-  lint:
+  sql-fix-check:
+    name: sqlfluff fix
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run SQLFluff Lint
-        uses: ./sqlfluff-lint
+      - uses: yu-iskw/action-sqlfluff@v5
+        id: fix-sql
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          sqlfluff_version: "latest"
-          src: "Databases"
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review
+          sqlfluff_version: "3.4.2"
+          sqlfluff_command: "fix" # Or "lint"
+          config: "${{ github.workspace }}/.sqlfluff"
+          paths: "${{ github.workspace }}/Databases/**"
+          level: "info"
+          reviewdog_version: "v0.20.3"
+          dialect: "tsql"
+          fail_on_error: "true"
+  sql-lint-check:
+    name: sqlfluff lint
+    runs-on: ubuntu-latest
+    needs: sql-fix-check
+    steps:
+      - uses: actions/checkout@v4
+      - uses: yu-iskw/action-sqlfluff@v5
+        id: lint-sql
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review
+          sqlfluff_version: "3.4.2"
+          sqlfluff_command: "lint" # Or "lint"
+          config: "${{ github.workspace }}/.sqlfluff"
+          paths: "${{ github.workspace }}/Databases/**"
+          level: "error"
+          reviewdog_version: "v0.20.3"
+          dialect: "tsql"
+          fail_on_error: "true"
