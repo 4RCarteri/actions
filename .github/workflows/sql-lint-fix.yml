@@ -9,7 +9,7 @@ jobs:
       - uses: Ardiannn08/resolve-outdated-comment@v1.3
         with:
           token: ${{ secrets.github_token }}
-          mode: "delete"
+          mode: "resolve"
   sql-fix-check:
     name: sqlfluff fix
     runs-on: ubuntu-latest
