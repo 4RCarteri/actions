@@ -24,17 +24,8 @@ jobs:
           reporter: github-pr-review
           sqlfluff_version: "3.4.2"
           sqlfluff_command: "fix" # Or "lint"
+          config: "${{ github.workspace }}/.sqlfluff"
           paths: "${{ github.workspace }}/Databases/**"
           level: "info"
-          filter_mode: "file"
-          reviewdog_version: "v0.20.2"
+          reviewdog_version: "v0.20.3"
           dialect: "tsql"
-          fail_on_error: "false"
-          templater: "jinja"
-      - name: "Show outputs (Optional)"
-        shell: bash
-        run: |
-          echo '${{ steps.lint-sql.outputs.sqlfluff-results }}'
-          echo '${{ steps.lint-sql.outputs.sqlfluff-results-rdjson }}'
-          echo '${{ steps.lint-sql.outputs.sqlfluff-exit-code }}'
-          echo '${{ steps.lint-sql.outputs.reviewdog-return-code }}'

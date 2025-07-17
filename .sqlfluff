@@ -1,42 +1,81 @@
 [sqlfluff]
-# Specify the SQL dialect being used, e.g., ansi, postgres, mysql, etc.
-dialect = ansi
-
-# Paths to include or exclude for linting
-exclude_rules = 
 templater = jinja
+dialect = tsql # Specify the SQL dialect to use, tsql= Microsoft T-SQL
+exclude_rules = 
+    CP02 # CP02: [capitalisation.identifiers] - Unquoted identifiers must be consistently lower case.
+    LT05 # LT05: [layout.long_lines] - Lines must not exceed the maximum line length.
+    RF05 # RF05: [references.special_chars] - Do not use special characters in identifiers.
+                
+ignore = templating  
+large_file_skip_byte_limit = 0 # No limit on file size for skipping large files
+max_line_length = 0  # No limit on line length
 
-# Ignore specific files or directories (comma separated)
-exclude_paths = .venv,.git,__pycache__
 
-# Set the maximum line length
-max_line_length = 80
+[sqlfluff:layout:type:alias_expression] # This Rule is responsible for aligning all the 'As' for renamed columns in Select.
+spacing_before = align
+align_within = select_clause
+spacing_after = touch
 
-# Set verbosity: 0 (least) - 3 (most verbose)
-verbosity = 1
+[sqlfluff:indentation]
+tab_space_size = 2
+indent_unit = space
+indented_joins = false
+indented_using_on = true
+allow_implicit_indents = true
+indented_on_contents = false
+indented_ctes = false
 
-# Enable linting for all .sql files
-sql_file_exts = .sql
+[sqlfluff:rules:aliasing.table]
+aliasing.table = explicit
 
-[sqlfluff:rules]
+[sqlfluff:rules:aliasing.column]
+aliasing.column = explicit
+
+[sqlfluff:rules:aliasing.expression]
 allow_scalar = True
-single_table_references = consistent
-unquoted_identifiers_policy = all
+
+[sqlfluff:rules:ambiguous.join]
+fully_qualify_join_types = inner
+
+[sqlfluff:rules:ambiguous.column_references]     
+group_by_and_order_by_style = consistent
 
 [sqlfluff:rules:capitalisation.keywords]
 capitalisation_policy = upper
 
-# You can disable rules by setting to 'ignore'
-# L009 = ignore
+[sqlfluff:rules:capitalisation.identifiers]
+extended_capitalisation_policy = lower
+unquoted_identifiers_policy = all
 
-[sqlfluff:templater:jinja]
-# Any Jinja-specific configurations can go here
-apply_dbt_builtins = false
+[sqlfluff:rules:capitalisation.functions]
+extended_capitalisation_policy = upper
 
-# Macros paths, if using dbt
-# dbt_profiles_dir = ./profiles
+[sqlfluff:rules:capitalisation.literals]
+capitalisation_policy = upper
 
-[sqlfluff:format]
-# Autoformatting settings
-reindent = true
-reindent_aligned = true
+[sqlfluff:rules:capitalisation.types]
+extended_capitalisation_policy = upper
+
+[sqlfluff:rules:jinja.padding]
+single_space = true
+
+[sqlfluff:rules:layout.spacing]
+no_trailing_whitespace = true
+extra_whitespace = false
+
+[sqlfluff:rules:layout.commas]
+line_position = trailing
+
+[sqlfluff:rules:layout.functions]
+no_space_after_function_name = true
+
+[sqlfluff:rules:layout.select_targets]
+wildcard_policy = single
+
+[sqlfluff:rules:layout.set_operators]
+set_operator_on_new_line = ['UNION', 'UNION ALL']
+
+[sqlfluff:rules:structure.nested_case]
+
+[sqlfluff:rules:structure.subquery]
+forbid_subquery_in = join
