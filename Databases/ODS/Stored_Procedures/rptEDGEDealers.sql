@@ -32,7 +32,7 @@ BEGIN
         (
             SELECT TOP 1  di.identifier FROM dealeridentifier AS di
             WHERE di.dealerid = d.dealerid AND di.dealeridentifiertypeid = 5
-        )                                                 AS fleetonedealerkey,
+        )                                                    AS fleetonedealerkey,
         (
             SELECT TOP 1  di.identifier FROM dealeridentifier AS di
             WHERE di.dealerid = d.dealerid AND di.dealeridentifiertypeid = 6
