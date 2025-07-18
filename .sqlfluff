@@ -1,14 +1,11 @@
 # Template documentation for SQLFluff configuration file: https://medium.com/@alice_thomaz/automating-sql-code-formatting-with-sqlfluff-4723779f19c6
 [sqlfluff]
 templater = jinja
-# Specify the SQL dialect to use, tsql= Microsoft T-SQL
-exclude_rules =
-    CP02,
-    LT05,
-    RF05
-# CP02: [capitalisation.identifiers] - Unquoted identifiers must be consistently lower case.
-# LT05: [layout.long_lines] - Lines must not exceed the maximum line length.
-# RF05: [references.special_chars] - Do not use special characters in identifiers.
+
+exclude_rules = AL03,CP02,AM04
+# AL03 aliasing.expression = Column expression without alias. Use explicit AS clause.
+# CP02: capitalisation.identifiers - Inconsistent capitalisation of unquoted identifiers.
+# AM04: ambiguous.column_count - Query produces an unknown number of result columns.
 # List of rules: https://docs.sqlfluff.com/en/stable/reference/rules.html
 
 large_file_skip_byte_limit = 0
@@ -19,7 +16,7 @@ spacing_before = align
 align_within = select_clause
 
 [sqlfluff:indentation]
-tab_space_size = 2
+tab_space_size = 4
 indent_unit = space
 indented_joins = false
 indented_using_on = true

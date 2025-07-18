@@ -26,6 +26,7 @@ jobs:
           config: "${{ github.workspace }}/.sqlfluff"
           paths: "${{ github.workspace }}/Databases"
           dialect: "tsql"
+          exclude-rules: "references"
           fail_on_error: "true"
 
   sql-lint-check:
@@ -44,6 +45,6 @@ jobs:
           config: "${{ github.workspace }}/.sqlfluff"
           paths: "${{ github.workspace }}/Databases"
           dialect: "tsql"
-          rules: "RF01"
+          rules: "references"
           fail_on_error: "true"
 
