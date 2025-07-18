@@ -28,7 +28,7 @@ BEGIN
         (
             SELECT TOP 1 di.identifier FROM dealeridentifier AS di
             WHERE di.dealerid = d.dealerid AND di.dealeridentifiertypeid = 10
-        )                                                 AS fleetonemerchantcode,
+        )                                                    AS fleetonemerchantcode,
         (
             SELECT TOP 1  di.identifier FROM dealeridentifier AS di
             WHERE di.dealerid = d.dealerid AND di.dealeridentifiertypeid = 5
