@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[rptEDGEDealers] 
+CREATE OR ALTER PROCEDURE [dbo].[rptEDGEDealers]
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
