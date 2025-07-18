@@ -10,20 +10,21 @@ BEGIN
 
 	SELECT @EndDate = DATEADD(SECOND, -1, DATEADD(DAY, 1, @EndDate))
 
-	SELECT ft.CardNumber
-		  ,ft.DriverName
-		  ,SUM(CASE WHEN ft.InNetworkTransaction = 1 THEN ft.Gallons ELSE 0 END) AS InNetworkGallons
-		  ,SUM(CASE WHEN ft.InNetworkTransaction = 0 THEN ft.Gallons ELSE 0 END) AS OutOfNetworkGallons
-		  ,SUM(ft.Gallons) AS TotalGallons
-		  ,SUM(CASE WHEN ft.InNetworkTransaction = 1 THEN ft.Gallons ELSE 0 END) / SUM(ft.Gallons) AS CompliancePercent
-		  ,CASE WHEN SUM(CASE WHEN ft.InNetworkTransaction = 1 THEN ft.Gallons ELSE 0 END) = 0 THEN 0 ELSE SUM(ft.CalculatedDiscountAmount) / SUM(CASE WHEN ft.InNetworkTransaction = 1 THEN ft.Gallons ELSE 0 END) END AS SavingsPerGallon
-		  ,SUM(ft.CalculatedDiscountAmount) AS Savings
-		  ,SUM(CASE WHEN ft.InNetworkTransaction = 0 THEN ft.Gallons ELSE 0 END) * 0.12 AS MissedOpportunity
-	FROM FuelTransaction ft
-		INNER JOIN FuelAccount fa
-			ON fa.FuelAccountID = ft.FuelAccountID
-	WHERE fa.AccountNumber = @AccountNumber
-	AND ft.TransactionDate BETWEEN @StartDate AND @EndDate
-	GROUP BY ft.CardNumber, ft.DriverName
+    SELECT
+        ft.cardnumber,
+        ft.drivername,
+        SUM(CASE WHEN ft.innetworktransaction = 1 THEN ft.gallons ELSE 0 END)                                                                                                                                        AS innetworkgallons,
+        SUM(CASE WHEN ft.innetworktransaction = 0 THEN ft.gallons ELSE 0 END)                                                                                                                                        AS outofnetworkgallons,
+        SUM(ft.gallons)                                                                                                                                                                                              AS totalgallons,
+        SUM(CASE WHEN ft.innetworktransaction = 1 THEN ft.gallons ELSE 0 END) / SUM(ft.gallons)                                                                                                                      AS compliancepercent,
+        CASE WHEN SUM(CASE WHEN ft.innetworktransaction = 1 THEN ft.gallons ELSE 0 END) = 0 THEN 0 ELSE SUM(ft.calculateddiscountamount) / SUM(CASE WHEN ft.innetworktransaction = 1 THEN ft.gallons ELSE 0 END) END AS savingspergallon,
+        SUM(ft.calculateddiscountamount)                                                                                                                                                                             AS savings,
+        SUM(CASE WHEN ft.innetworktransaction = 0 THEN ft.gallons ELSE 0 END) * 0.12                                                                                                                                 AS missedopportunity
+    FROM fueltransaction AS ft
+    INNER JOIN fuelaccount AS fa
+        ON ft.fuelaccountid = fa.fuelaccountid
+    WHERE fa.accountnumber = @AccountNumber
+        AND ft.transactiondate BETWEEN @StartDate AND @EndDate
+    GROUP BY ft.cardnumber, ft.drivername
 
 END
