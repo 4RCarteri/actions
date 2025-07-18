@@ -1,13 +1,14 @@
-name: sqlfluff with reviewdog
+name: SQLFluff with Reviewdog
 on:
   pull_request:
 jobs:
   sql-verify:
     runs-on: ubuntu-latest
     steps:
-      - uses: wexinc/gf-mwd-workflows/sql-verify@v1
+      - name: SQLFluff Fix-Lint
+        uses: wexinc/gf-mwd-workflows/sql-verify@v1
         with:
-          github_token: ${{ secrets.github_token }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           paths: "${{ github.workspace }}/Databases"
           config: "${{ github.workspace }}/sql-verify/.sqlfluff"
           dialect: "tsql"
