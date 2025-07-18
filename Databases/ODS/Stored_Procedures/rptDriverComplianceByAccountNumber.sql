@@ -8,7 +8,7 @@ BEGIN
     -- interfering with SELECT statements.
     SET NOCOUNT ON;
 
-	SELECT @EndDate = DATEADD(SECOND, -1, DATEADD(DAY, 1, @EndDate))
+    SELECT @EndDate = DATEADD(SECOND, -1, DATEADD(DAY, 1, @EndDate))
 
     SELECT
         ft.cardnumber,
