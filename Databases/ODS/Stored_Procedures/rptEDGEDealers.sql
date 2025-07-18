@@ -40,7 +40,7 @@ BEGIN
         (
             SELECT TOP 1  di.identifier FROM dealeridentifier AS di
             WHERE di.dealerid = d.dealerid AND di.dealeridentifiertypeid = 4
-        )                                                 AS comdatadealerkey,
+        )                                                    AS comdatadealerkey,
         (
             SELECT TOP 1  di.identifier FROM dealeridentifier AS di
             WHERE di.dealerid = d.dealerid AND di.dealeridentifiertypeid = 3
