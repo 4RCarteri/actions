@@ -20,7 +20,7 @@ BEGIN
         (
             SELECT TOP 1  di.identifier FROM dealeridentifier AS di
             WHERE di.dealerid = d.dealerid AND di.dealeridentifiertypeid = 2
-        )                                                 AS ftschainid,
+        )                                                    AS ftschainid,
         (
             SELECT TOP 1  di.identifier FROM dealeridentifier AS di
             WHERE di.dealerid = d.dealerid AND di.dealeridentifiertypeid = 7
