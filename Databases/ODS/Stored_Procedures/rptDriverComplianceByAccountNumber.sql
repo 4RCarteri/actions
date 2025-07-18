@@ -4,9 +4,9 @@ CREATE OR ALTER PROCEDURE [dbo].[rptDriverComplianceByAccountNumber]
     @AccountNumber VARCHAR(10)
 AS
 BEGIN
-	-- SET NOCOUNT ON added to prevent extra result sets from
-	-- interfering with SELECT statements.
-	SET NOCOUNT ON;
+    -- SET NOCOUNT ON added to prevent extra result sets from
+    -- interfering with SELECT statements.
+    SET NOCOUNT ON;
 
 	SELECT @EndDate = DATEADD(SECOND, -1, DATEADD(DAY, 1, @EndDate))
 
