@@ -14,7 +14,7 @@ BEGIN
         a.postalcode,
         dn.dealernetworkname                              AS truckersb2bnetworkidentifier,
         (
-            SELECT TOP 1  di.identifier FROM dealeridentifier AS di
+            SELECT TOP 1 di.identifier FROM dealeridentifier AS di
             WHERE di.dealerid = d.dealerid AND di.dealeridentifiertypeid = 1
         )                                                 AS ftslocationid,
         (
