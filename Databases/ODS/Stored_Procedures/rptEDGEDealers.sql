@@ -14,35 +14,35 @@ BEGIN
         a.postalcode,
         dn.dealernetworkname                              AS truckersb2bnetworkidentifier,
         (
-            SELECT TOP 1 identifier FROM dealeridentifier AS di
+            SELECT TOP 1  di.identifier FROM dealeridentifier AS di
             WHERE di.dealerid = d.dealerid AND di.dealeridentifiertypeid = 1
         )                                                 AS ftslocationid,
         (
-            SELECT TOP 1 identifier FROM dealeridentifier AS di
+            SELECT TOP 1  di.identifier FROM dealeridentifier AS di
             WHERE di.dealerid = d.dealerid AND di.dealeridentifiertypeid = 2
         )                                                 AS ftschainid,
         (
-            SELECT TOP 1 identifier FROM dealeridentifier AS di
+            SELECT TOP 1  di.identifier FROM dealeridentifier AS di
             WHERE di.dealerid = d.dealerid AND di.dealeridentifiertypeid = 7
         )                                                 AS ftsaffiliate,
         (
-            SELECT TOP 1 identifier FROM dealeridentifier AS di
+            SELECT TOP 1  di.identifier FROM dealeridentifier AS di
             WHERE di.dealerid = d.dealerid AND di.dealeridentifiertypeid = 10
         )                                                 AS fleetonemerchantcode,
         (
-            SELECT TOP 1 identifier FROM dealeridentifier AS di
+            SELECT TOP 1  di.identifier FROM dealeridentifier AS di
             WHERE di.dealerid = d.dealerid AND di.dealeridentifiertypeid = 5
         )                                                 AS fleetonedealerkey,
         (
-            SELECT TOP 1 identifier FROM dealeridentifier AS di
+            SELECT TOP 1  di.identifier FROM dealeridentifier AS di
             WHERE di.dealerid = d.dealerid AND di.dealeridentifiertypeid = 6
         )                                                 AS efsdealerkey,
         (
-            SELECT TOP 1 identifier FROM dealeridentifier AS di
+            SELECT TOP 1  di.identifier FROM dealeridentifier AS di
             WHERE di.dealerid = d.dealerid AND di.dealeridentifiertypeid = 4
         )                                                 AS comdatadealerkey,
         (
-            SELECT TOP 1 identifier FROM dealeridentifier AS di
+            SELECT TOP 1  di.identifier FROM dealeridentifier AS di
             WHERE di.dealerid = d.dealerid AND di.dealeridentifiertypeid = 3
         )                                                 AS tchekdealerkey
     FROM fueltransaction AS ft

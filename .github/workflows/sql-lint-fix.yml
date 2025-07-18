@@ -26,13 +26,16 @@ jobs:
           config: "${{ github.workspace }}/.sqlfluff"
           paths: "${{ github.workspace }}/Databases"
           dialect: "tsql"
-          exclude-rules: "references"
+          # codes for unfixable linting violations, they will be shown on lint command because they are not fixed by sqlfluff and should be handled manually
+          exclude-rules: "AL04,ST11,references"
           fail_on_error: "true"
 
   sql-lint-check:
     name: sqlfluff lint
     runs-on: ubuntu-latest
-    needs: resolve-outdated-comment
+    needs: sql-fix-check
+    # Run after fix to report unfixable issues
+    if: always() 
     steps:
       - uses: actions/checkout@v4
       - uses: yu-iskw/action-sqlfluff@v5
@@ -45,6 +48,6 @@ jobs:
           config: "${{ github.workspace }}/.sqlfluff"
           paths: "${{ github.workspace }}/Databases"
           dialect: "tsql"
-          rules: "references"
+          level: "info"
           fail_on_error: "true"
 

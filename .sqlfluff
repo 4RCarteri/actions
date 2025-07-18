@@ -3,10 +3,10 @@
 templater = jinja
 
 exclude_rules = AL03,CP02,AM04
+# List of rules: https://docs.sqlfluff.com/en/stable/reference/rules.html
 # AL03 aliasing.expression = Column expression without alias. Use explicit AS clause.
 # CP02: capitalisation.identifiers - Inconsistent capitalisation of unquoted identifiers.
 # AM04: ambiguous.column_count - Query produces an unknown number of result columns.
-# List of rules: https://docs.sqlfluff.com/en/stable/reference/rules.html
 
 large_file_skip_byte_limit = 0
 max_line_length = 0
