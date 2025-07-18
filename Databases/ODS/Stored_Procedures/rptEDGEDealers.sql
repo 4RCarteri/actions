@@ -38,7 +38,7 @@ BEGIN
             WHERE di.dealerid = d.dealerid AND di.dealeridentifiertypeid = 6
         )                                                 AS efsdealerkey,
         (
-            SELECT TOP 1  di.identifier FROM dealeridentifier AS di
+            SELECT TOP 1 di.identifier FROM dealeridentifier AS di
             WHERE di.dealerid = d.dealerid AND di.dealeridentifiertypeid = 4
         )                                                    AS comdatadealerkey,
         (
