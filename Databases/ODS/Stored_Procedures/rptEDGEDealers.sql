@@ -6,8 +6,8 @@ BEGIN
     SET NOCOUNT ON;
 
     SELECT
-        d.dealerid                                        AS truckersb2bdealerid,
-        dc.companyname                                    AS dealername,
+        d.dealerid                                           AS truckersb2bdealerid,
+        dc.companyname                                       AS dealername,
         a.streetaddress,
         a.city,
         a.state,
