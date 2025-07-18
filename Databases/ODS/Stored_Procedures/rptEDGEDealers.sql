@@ -1,9 +1,9 @@
 CREATE OR ALTER PROCEDURE [dbo].[rptEDGEDealers]
 AS
 BEGIN
-	-- SET NOCOUNT ON added to prevent extra result sets from
-	-- interfering with SELECT statements.
-	SET NOCOUNT ON;
+    -- SET NOCOUNT ON added to prevent extra result sets from
+    -- interfering with SELECT statements.
+    SET NOCOUNT ON;
 
     SELECT
         d.dealerid                                        AS truckersb2bdealerid,
