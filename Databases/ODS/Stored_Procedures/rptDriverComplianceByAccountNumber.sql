@@ -1,7 +1,7 @@
 CREATE OR ALTER PROCEDURE [dbo].[rptDriverComplianceByAccountNumber]
-	@StartDate datetime,
-	@EndDate datetime,
-	@AccountNumber varchar(10)
+    @StartDate DATETIME,
+    @EndDate DATETIME,
+    @AccountNumber VARCHAR(10)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
