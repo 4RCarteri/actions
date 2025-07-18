@@ -44,7 +44,7 @@ BEGIN
         (
             SELECT TOP 1 di.identifier FROM dealeridentifier AS di
             WHERE di.dealerid = d.dealerid AND di.dealeridentifiertypeid = 3
-        )                                                 AS tchekdealerkey
+        )                                                    AS tchekdealerkey
     FROM fueltransaction AS ft
     INNER JOIN dealer AS d
         ON ft.dealerid = d.dealerid
