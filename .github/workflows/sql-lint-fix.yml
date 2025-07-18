@@ -3,10 +3,11 @@ on:
   pull_request:
 jobs:
   sql-verify:
-    uses: wexinc/gf-mwd-workflows/sql-verify@v1
-    with:
-      paths: "${{ github.workspace }}/Databases"
-      config: "${{ github.workspace }}/sql-verify/.sqlfluff"
-      dialect: "tsql"
-    secrets:
-      github_token: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: wexinc/gf-mwd-workflows/sql-verify@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          paths: "${{ github.workspace }}/Databases"
+          config: "${{ github.workspace }}/sql-verify/.sqlfluff"
+          dialect: "tsql"
