@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: SQLFluff Fix-Lint
-        uses: wexinc/gf-mwd-workflows/sql-verify@v1
+        uses: wexinc/edge-workflows/sql-verify@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           paths: "${{ github.workspace }}/Databases"
