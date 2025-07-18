@@ -1,22 +1,12 @@
-name: SQL Lint and Fix
-
+name: sqlfluff with reviewdog
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'Databases/**/*.sql'
   pull_request:
-  workflow_dispatch:
-
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Run SQLFluff Lint
-        uses: ./sqlfluff-lint
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          sqlfluff_version: "latest"
-          src: "Databases"
+  sql-verify:
+    uses: wexinc/gf-mwd-workflows/sql-verify@v1
+    with:
+      paths: "${{ github.workspace }}/Databases"
+      config: "${{ github.workspace }}/sql-verify/.sqlfluff"
+      dialect: "tsql"
+    secrets:
+      github_token: ${{ secrets.GITHUB_TOKEN }}
