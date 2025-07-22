@@ -6,8 +6,8 @@ jobs:
   sql-verify:
     uses: 4RCarteri/github_actions_course/.github/workflows/sql-fix-lint.yml@sql-lint
     with:
-      paths: "caminho/do/seu_sql"
-      dialect: "ansi"
-      config: ".github/.sqlfluff"
+      paths: "${{ github.workspace }}/Databases"
+      dialect: tsql
+      config: .sqlfluff
     secrets:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
