@@ -43,7 +43,7 @@ BEGIN
  /*INSERT INTO PRE FINAL TABLE */  
  INSERT INTO [dbo].[WEXTransaction_PreFinal]  
   SELECT   
-     CAST([WEXTransactionID] As BIGINT) as [WEXTransactionID],  
+     CAST([WEXTransactionID] AS BIGINT) as [WEXTransactionID],  
      CAST([ItemSequenceNumber] AS INT) AS [ItemSequenceNumber],  
      [AccountNumber],  
      CAST(AccountNumberWexOfBillingAccount AS VARCHAR(8)) AS [WEXBillingAccount],  
