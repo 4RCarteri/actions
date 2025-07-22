@@ -1,6 +1,7 @@
 name: SQLFluff with Reviewdog
 on:
   pull_request:
+  workflow_dispatch:
 jobs:
   sql-verify:
     uses: 4RCarteri/github_actions_course/.github/workflows/sql-fix-lint.yml@sql-lint
