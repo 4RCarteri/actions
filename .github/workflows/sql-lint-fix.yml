@@ -9,5 +9,3 @@ jobs:
       paths: "${{ github.workspace }}/Databases"
       dialect: tsql
       config: .sqlfluff
-    secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
