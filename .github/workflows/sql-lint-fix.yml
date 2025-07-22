@@ -3,12 +3,10 @@ on:
   pull_request:
 jobs:
   sql-verify:
-    runs-on: ubuntu-latest
-    steps:
-      - name: SQLFluff Fix-Lint
-        uses: wexinc/gf-mwd-workflows/sql-verify@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          paths: "${{ github.workspace }}/Databases"
-          config: "${{ github.workspace }}/sql-verify/.sqlfluff"
-          dialect: "tsql"
+    uses: 4RCarteri/github_actions_course/.github/workflows/sql-fix-lint.yml@sql-lint
+    with:
+      paths: "caminho/do/seu_sql"
+      dialect: "ansi"
+      config: ".github/.sqlfluff"
+    secrets:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
